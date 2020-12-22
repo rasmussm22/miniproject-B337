@@ -2,6 +2,9 @@
 #include <ros/ros.h>
 #include <turtlesim/Pose.h>
 
+std::string   t1 = "turtle1 ";
+std::string   t2 = "turtle2 ";
+
 int getTurtle1Choice()
 {
 
@@ -26,27 +29,27 @@ bool determineWinner(int getTurtle1Choice, int getTurtle2Choice)
 
     if (getTurtle1Choice == rock && getTurtle2Choice == paper)
     {
-        std::cout << "turtle2 Wins! Paper sufficates rock!" << std::endl;
+        std::cout <<  t2 << "Wins! Paper sufficates rock!" << std::endl;
     }
     else if (getTurtle2Choice == rock && getTurtle1Choice == paper)
     {
-        std::cout << "turtle1 Wins! Paper sufficates rock!" << std::endl;
+        std::cout << t1 << "Wins! Paper sufficates rock!" << std::endl;
     }
     else if (getTurtle1Choice == scissor && getTurtle2Choice == paper)
     {
-        std::cout << "turtle1 Wins! Scissor sepirates paper leaving it in 2!" << std::endl;
+        std::cout << t1 << "Wins! Scissor sepirates paper leaving it in 2!" << std::endl;
     }
     else if (getTurtle2Choice == scissor && getTurtle1Choice == paper)
     {
-        std::cout << "turtle2 Wins! Scissor sepirates paper leaving it in 2!" << std::endl;
+        std::cout << t2 << "Wins! Scissor sepirates paper leaving it in 2!" << std::endl;
     }
     else if (getTurtle1Choice == rock && getTurtle2Choice == scissor)
     {
-        std::cout << /*insert turtle name function*/ "Wins! Rock crushes the scissors into a pulp!" << std::endl;
+        std::cout << t1 << "Wins! Rock crushes the scissors into a pulp!" << std::endl;
     }
     else if (getTurtle2Choice == rock && getTurtle1Choice == scissor)
     {
-        std::cout << /*insert turtle name function*/ "Wins! Rock crushes the scissors into a pulp!" << std::endl;
+        std::cout << t2 << "Wins! Rock crushes the scissors into a pulp!" << std::endl;
     }
     else
     {
@@ -61,7 +64,7 @@ int main(int argc, char **argv)
 {
     srand(time(NULL));
 
-    std::cout << /*insert turtle name function*/ "and" /*insert turtlename function2*/ "have comenced battle" << std::endl;
+    std::cout << t1 << "and " << t2 << "have comenced battle " << std::endl;
 
     bool tie;
 
