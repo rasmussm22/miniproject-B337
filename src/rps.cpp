@@ -16,7 +16,9 @@ int main(int argc, const char *argv[])
     int Turtle2_NumberOfWins = 0;
     std::string turtle1;
     std::string turtle2;
-
+    int t1 = 0;
+    int t2 = 0;
+    bool determine_Looser;
 
     while (Turtle1_NumberOfWins < 3 && Turtle2_NumberOfWins < 3)
     {
@@ -107,11 +109,25 @@ int main(int argc, const char *argv[])
     if (Turtle1_NumberOfWins = 3)
     {
         std::cout << "Turtle1 is the champion!" << std::endl;
+        determine_Looser = false;
     }
     else if (Turtle2_NumberOfWins = 3)
     {
         std::cout << "Turtle2 is the champion!" << std::endl;
+        determine_Looser = true;
     }
+
+    if (determine_Looser = true){
+        t1--;
+    }
+    else if (determine_Looser = false)
+    {
+        t2--;
+    }
+    
+
+   
+
 
     return 0;
 }
