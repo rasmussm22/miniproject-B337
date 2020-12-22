@@ -1,15 +1,24 @@
 #include <iostream>
 #include <ros/ros.h>
-#include <cstdlib>
-#include <ctime>
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>  //random generator i think?//
 #include <time.h>   //For the random generator//
 #include <unistd.h> ///For the sleep//
+#include <std_msgs/Int32.h>
 
-int main(int argc, const char *argv[])
+
+int main(int argc, char **argv)
 {
+    ros::init(argc, argv, "rps");
+    ros::NodeHandle n;
+
+    ros::Publisher t1_pub = n.advertise<std_msgs::Int32>("t1", 1);
+    ros::Publisher t2_pub = n.advertise<std_msgs::Int32>("t2", 1);
+
+    
+
+    
     std::srand(time(NULL));
 
     int Turtle1_NumberOfWins = 0;
@@ -19,6 +28,8 @@ int main(int argc, const char *argv[])
     int t1 = 0;
     int t2 = 0;
     bool determine_Looser;
+
+    
 
     while (Turtle1_NumberOfWins < 3 && Turtle2_NumberOfWins < 3)
     {
@@ -115,6 +126,8 @@ int main(int argc, const char *argv[])
         determine_Looser = true;
     }
 
+
+
     if (determine_Looser = true)
     {
         t1--;
@@ -123,6 +136,15 @@ int main(int argc, const char *argv[])
     {
         t2--;
     }
+
+    std_msgs::Int32 msg1;
+    std_msgs::Int32 msg2;
+
+    msg1.data = t1;
+    msg2.data = t2;
+
+    t1_pub.publish(msg1);
+    t2_pub.publish(msg2);
 
     return 0;
 }
