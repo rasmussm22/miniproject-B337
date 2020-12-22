@@ -48,7 +48,6 @@ int main(int argc, char **argv)
     int turtle2_choice;
     int t1 = 0;
     int t2 = 0;
-    bool determine_Looser;
 
     while (Turtle1_NumberOfWins < 3 && Turtle2_NumberOfWins < 3)
     {
@@ -102,26 +101,17 @@ int main(int argc, char **argv)
 
         std::cout << "Score: Turtle1 = " << Turtle1_NumberOfWins << ", Turtle2 = " << Turtle2_NumberOfWins << std::endl;
 
-        sleep(1);
+        sleep(1.5);
     }
 
     if (Turtle1_NumberOfWins == 3)
     {
         std::cout << "Turtle1 is the champion!" << std::endl;
-        determine_Looser = false;
+        t1--;
     }
     else if (Turtle2_NumberOfWins == 3)
     {
         std::cout << "Turtle2 is the champion!" << std::endl;
-        determine_Looser = true;
-    }
-
-    if (determine_Looser == true)
-    {
-        t1--;
-    }
-    else if (determine_Looser == false)
-    {
         t2--;
     }
 
