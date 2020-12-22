@@ -57,7 +57,6 @@ int main(int argc, const char *argv[])
 
         ///////Outputting outcome of battle, and counting score///////////
 
-       
         if (turtle1 == "rock" && turtle2 == "scissor")
         {
             Turtle1_NumberOfWins++;
@@ -93,15 +92,14 @@ int main(int argc, const char *argv[])
             Turtle2_NumberOfWins++;
             std::cout << "Turtle 2 won! Turtle1 chose paper while turtle2 chose scissor" << std::endl;
             std::cout << "Turtle2 gets one point" << std::endl;
-        } 
+        }
         else
         {
             std::cout << "Its a tie! The turtles picked the same thing " << std::endl;
             std::cout << "No points are given" << std::endl;
         }
 
-        std::cout <<"Score: Turtle1 = " << Turtle1_NumberOfWins << ", Turtle2 = " << Turtle2_NumberOfWins << std::endl;
-
+        std::cout << "Score: Turtle1 = " << Turtle1_NumberOfWins << ", Turtle2 = " << Turtle2_NumberOfWins << std::endl;
 
         sleep(2);
     }
@@ -117,17 +115,14 @@ int main(int argc, const char *argv[])
         determine_Looser = true;
     }
 
-    if (determine_Looser = true){
+    if (determine_Looser = true)
+    {
         t1--;
     }
     else if (determine_Looser = false)
     {
         t2--;
     }
-    
-
-   
-
 
     return 0;
 }
