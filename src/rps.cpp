@@ -7,7 +7,6 @@
 #include <unistd.h> ///For the sleep//
 #include <std_msgs/Int32.h>
 
-
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "rps");
@@ -16,9 +15,6 @@ int main(int argc, char **argv)
     ros::Publisher t1_pub = n.advertise<std_msgs::Int32>("t1", 1);
     ros::Publisher t2_pub = n.advertise<std_msgs::Int32>("t2", 1);
 
-    
-
-    
     std::srand(time(NULL));
 
     int Turtle1_NumberOfWins = 0;
@@ -28,8 +24,6 @@ int main(int argc, char **argv)
     int t1 = 0;
     int t2 = 0;
     bool determine_Looser;
-
-    
 
     while (Turtle1_NumberOfWins < 3 && Turtle2_NumberOfWins < 3)
     {
@@ -125,8 +119,6 @@ int main(int argc, char **argv)
         std::cout << "Turtle2 is the champion!" << std::endl;
         determine_Looser = true;
     }
-
-
 
     if (determine_Looser = true)
     {
