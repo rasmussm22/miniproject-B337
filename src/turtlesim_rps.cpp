@@ -22,11 +22,17 @@ void spawn_turtle(int n)
 }
 // Snippet end
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
 int t;
 cout << "How many turtles are facing off: "; 
 cin >> t; // Insert amount of turtles
 cout << t << " turtles are facing off";
+ros::init( argc, argv, "turtle_spawn" );
+ros::NodeHandle node_handle;
+p_node_handle =&node_handle;
+ros::Duration(1.0).sleep();
+spawn_turtle(t+1);
+
     return 0;
 }
