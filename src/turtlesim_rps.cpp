@@ -21,27 +21,28 @@ void spawn_turtle(char n)
     spawn_client.call(spawn_message);
 }
 // Snippet end
-char t;
-char yeet=0;
+// char t;
+int yeet=0;
 int main(int argc, char *argv[]){
 
-//char t;
+int t;
 //char yeet =0;
 
 cout << "How many turtles are facing off: "; 
 cin >> t; // Insert amount of turtles
 cout << t << " turtles are facing off";
 
-// don't know don't care
+// don't know don't care 
+// without them it says segmentation fault
 ros::init( argc, argv, "turtle_spawn" );
 ros::NodeHandle node_handle;
 p_node_handle =&node_handle;
 
-// My cheeky way to get around 
-// spawn turtle not working x amount of times
-while(yeet <t){
-spawn_turtle(1);
-yeet++;
+//Spend four hours to get this 3 line code T_T
+for(yeet=0 ; yeet<t; yeet=yeet+1 )
+    {
+spawn_turtle(0);
 }
+
     return 0;
 }
