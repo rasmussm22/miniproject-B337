@@ -54,8 +54,8 @@ int main(int argc, char **argv)
 
     ros::Rate test(1);
 
-    ros::Subscriber pose1_subscriber = n.subscribe("/turtle1/pose", 100, turtle1Callback);
-    ros::Subscriber pose2_subscriber = n.subscribe("/turtle2/pose", 100, turtle2Callback);
+    ros::Subscriber pose1_subscriber = n.subscribe("/turtle1/pose", 100, &turtle1Callback);
+    ros::Subscriber pose2_subscriber = n.subscribe("/turtle2/pose", 100, &turtle2Callback);
 
     ros::Publisher t1_pub = n.advertise<std_msgs::Int32>("t1", 1);
     ros::Publisher t2_pub = n.advertise<std_msgs::Int32>("t2", 1);
@@ -69,22 +69,24 @@ int main(int argc, char **argv)
 
     do
     {
+
+
+    ros::spinOnce();
+
     double x_distance = turtle1_Pose.x - turtle2_Pose.x;
     double y_distance = turtle1_Pose.y - turtle2_Pose.y;
     distance = hypot(x_distance, y_distance);
-
+    /*
     std::cout << distance << std::endl;
     std::cout << turtle1_Pose.x << std::endl;
     std::cout << turtle1_Pose.y << std::endl;
 
     std::cout << turtle2_Pose.x << std::endl;
     std::cout << turtle2_Pose.y << std::endl;
-
+    */
 
     } while (distance > 1);
     
-    
-
 
     std::srand(time(NULL));
 
