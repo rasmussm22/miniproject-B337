@@ -8,6 +8,7 @@
 #include <std_msgs/Int32.h>
 #include <sstream>
 #include <string>
+#include <turtlesim/SetPen.h>
 
 geometry_msgs::Twist cmd_vel_message1;
 geometry_msgs::Twist cmd_vel_message2;
@@ -129,6 +130,16 @@ int main(int argc, char *argv[])
     spawn_message.request.x = rand() % 11;
     spawn_message.request.y = rand() % 11;
     spawn_client.call(spawn_message);
+
+    ros::ServiceClient pen_client = n.serviceClient<turtlesim::SetPen>("/turtle1/set_pen");
+    ros::ServiceClient pen_client2 = n.serviceClient<turtlesim::SetPen>("/turtle2/set_pen");
+    
+
+     turtlesim::SetPen pen_srv;
+     pen_srv.request.off = true;
+     pen_client.call(pen_srv);
+     pen_client2.call(pen_srv);
+
 
     
     ros::Publisher cmd_vel_pub1 = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
