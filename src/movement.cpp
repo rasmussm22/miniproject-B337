@@ -120,12 +120,16 @@ int main(int argc, char *argv[])
 
     ros::NodeHandle n;
     p_node_handle = &n;
+    
+    srand(time(NULL));
+
     ros::ServiceClient spawn_client = n.serviceClient<turtlesim::Spawn>("/spawn");
     turtlesim::Spawn spawn_message;
     spawn_message.request.name = "turtle2";
     spawn_message.request.x = rand() % 11;
     spawn_message.request.y = rand() % 11;
     spawn_client.call(spawn_message);
+
     
     ros::Publisher cmd_vel_pub1 = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
     ros::Publisher cmd_vel_pub2 = n.advertise<geometry_msgs::Twist>("/turtle2/cmd_vel", 1);

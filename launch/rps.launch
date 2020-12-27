@@ -1,9 +1,9 @@
 <launch>
 <node pkg = "turtlesim" name = "turtlesimulator" type = "turtlesim_node" /> 
 ros::Duration(5.0).sleep();
-<node pkg = "turtlesim_pkg" name = "package_move" type = "turtlesim_pkg_movement" output = "screen" /> 
+<node pkg = "rps" name = "package_move" type = "movement" output = "screen" /> 
 ros::Duration(5.0).sleep();
-<node pkg = "turtlesim_pkg" name = "rockhard" type = "turtlesim_pkg_rocky" output = "screen" />
+<node pkg = "rps" name = "rockhard" type = "rps" output = "screen" />
 
 
 </launch>
