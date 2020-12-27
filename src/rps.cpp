@@ -6,7 +6,11 @@
 #include <time.h>   //For the random generator//
 #include <unistd.h> ///For the sleep//
 #include <std_msgs/Int32.h>
-
+#include <geometry_msgs/Twist.h>
+#include <turtlesim/Pose.h>
+#include <turtlesim/Spawn.h>
+#include <cstdlib>
+#include <turtlesim/Kill.h>
 /*
 void t1cb(const std_msgs::Int32::ConstPtr& msg)
 {
@@ -19,9 +23,23 @@ std::cout << "Content: " << msg->data << std::endl;
 }
 */
 //testing
+
+turtlesim::Pose turtle1_Pose;
+turtlesim::Pose turtle2_Pose;
 int rock = 1;
 int paper = 2;
 int scissor = 3;
+
+void turtle1Callback(const turtlesim::Pose::ConstPtr &msg)
+{
+    turtle1_Pose = *msg;
+}
+
+void turtle2Callback(const turtlesim::Pose::ConstPtr &msg)
+{
+    turtle2_Pose = *msg;
+}
+
 
 int getTurtle_choice()
 {
@@ -34,11 +52,39 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "rps");
     ros::NodeHandle n;
 
+    ros::Rate test(1);
+
+    ros::Subscriber pose1_subscriber = n.subscribe("/turtle1/pose", 100, turtle1Callback);
+    ros::Subscriber pose2_subscriber = n.subscribe("/turtle2/pose", 100, turtle2Callback);
+
     ros::Publisher t1_pub = n.advertise<std_msgs::Int32>("t1", 1);
     ros::Publisher t2_pub = n.advertise<std_msgs::Int32>("t2", 1);
 
     //ros::Subscriber t1_sub = n.subscribe("t1", 1, t1cb);
     //ros::Subscriber t2_sub = n.subscribe("t2", 1, t2cb);  //testing
+
+    double distance = 0;
+    
+    test.sleep();
+
+    do
+    {
+    double x_distance = turtle1_Pose.x - turtle2_Pose.x;
+    double y_distance = turtle1_Pose.y - turtle2_Pose.y;
+    distance = hypot(x_distance, y_distance);
+
+    std::cout << distance << std::endl;
+    std::cout << turtle1_Pose.x << std::endl;
+    std::cout << turtle1_Pose.y << std::endl;
+
+    std::cout << turtle2_Pose.x << std::endl;
+    std::cout << turtle2_Pose.y << std::endl;
+
+
+    } while (distance > 1);
+    
+    
+
 
     std::srand(time(NULL));
 
@@ -123,6 +169,10 @@ int main(int argc, char **argv)
 
     t1_pub.publish(msg1);
     t2_pub.publish(msg2);
+
+
+
+
 
     return 0;
 }
