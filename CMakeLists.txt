@@ -113,9 +113,9 @@ visualization_msgs
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-# INCLUDE_DIRS include
+ INCLUDE_DIRS 
 #  LIBRARIES rps
-#  CATKIN_DEPENDS other_catkin_pkg
+ CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 
@@ -143,15 +143,17 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_turtlesim_rps src/turtlesim_rps_node.cpp)
-add_executable(${PROJECT_NAME}_main src/main_node.cpp)
+add_executable(${PROJECT_NAME}_rps src/rps.cpp)
+add_executable(${PROJECT_NAME}_movement src/movement.cpp)
+#add_executable(${PROJECT_NAME}_turtlesim_rps src/turtlesim_rps.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
- set_target_properties(${PROJECT_NAME}_turtlesim_rps PROPERTIES OUTPUT_NAME main PREFIX "")
+# set_target_properties(${PROJECT_NAME}_turtlesim_rps PROPERTIES OUTPUT_NAME main PREFIX "")
  set_target_properties(${PROJECT_NAME}_rps PROPERTIES OUTPUT_NAME rps PREFIX "")
+ set_target_properties(${PROJECT_NAME}_movement PROPERTIES OUTPUT_NAME movement PREFIX "")
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -161,10 +163,13 @@ add_executable(${PROJECT_NAME}_main src/main_node.cpp)
 #   ${catkin_LIBRARIES}
 # )
 
-target_link_libraries(${PROJECT_NAME}_turtlesim_rps
+#target_link_libraries(${PROJECT_NAME}_turtlesim_rps
+#${catkin_LIBRARIES}
+#)
+target_link_libraries(${PROJECT_NAME}_rps
 ${catkin_LIBRARIES}
 )
-target_link_libraries(${PROJECT_NAME}_rps
+target_link_libraries(${PROJECT_NAME}_movement
 ${catkin_LIBRARIES}
 )
 
@@ -204,8 +209,9 @@ ${catkin_LIBRARIES}
 #   PATTERN ".svn" EXCLUDE
 # )
 install(TARGETS
- ${PROJECT_NAME}_turtlesim_rps
+ #${PROJECT_NAME}_turtlesim_rps
  ${PROJECT_NAME}_rps
+ ${PROJECT_NAME}_movement
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 ## Mark other files for installation (e.g. launch and bag files, etc.)
