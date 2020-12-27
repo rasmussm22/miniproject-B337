@@ -94,8 +94,8 @@ int main(int argc, char **argv)
     int Turtle2_NumberOfWins = 0;
     int turtle1_choice;
     int turtle2_choice;
-    int t1 = 0;
-    int t2 = 0;
+    int t1 = 1;
+    int t2 = 1;
 
     while (Turtle1_NumberOfWins < 3 && Turtle2_NumberOfWins < 3)
     {
@@ -155,12 +155,12 @@ int main(int argc, char **argv)
     if (Turtle1_NumberOfWins == 3)
     {
         std::cout << "Turtle1 is the champion!" << std::endl;
-        t1--;
+        t2--;
     }
     else if (Turtle2_NumberOfWins == 3)
     {
         std::cout << "Turtle2 is the champion!" << std::endl;
-        t2--;
+        t1--;
     }
 
     std_msgs::Int32 msg1;
@@ -172,9 +172,8 @@ int main(int argc, char **argv)
     t1_pub.publish(msg1);
     t2_pub.publish(msg2);
 
-
-
-
+    ros::spinOnce();
+    
 
     return 0;
 }

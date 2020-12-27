@@ -6,24 +6,26 @@
 #include <cstdlib>
 #include <turtlesim/Kill.h>
 #include <std_msgs/Int32.h>
+#include <sstream>
+#include <string>
 
 geometry_msgs::Twist cmd_vel_message1;
 geometry_msgs::Twist cmd_vel_message2;
-float velocity_gain = 0.03;
+float velocity_gain = 0.1;
 float angular_gain = 0.7;
 float battle_distance = 1;
 turtlesim::Pose turtle1_Pose;
 turtlesim::Pose turtle2_Pose;
 ros::NodeHandle *p_node_handle;
-int t1 = 0;
-int t2 = 0;
+int t1 = 1;
+int t2 = 1;
 
-void kill_turtle(int n)
+void kill_turtle(std::string n)
 {
-    std::stringstream ss;
-    ss << "turtle" << n;
+    //std::stringstream ss;
+    //ss << "turtle" << n;
     turtlesim::Kill kill_message;
-    kill_message.request.name = ss.str();
+    kill_message.request.name = n;
     ros::ServiceClient kill_client = p_node_handle->serviceClient<turtlesim::Kill>("/kill");
     kill_client.call(kill_message);
 }
@@ -32,20 +34,17 @@ void t1Callback(const std_msgs::Int32::ConstPtr &msg)
 {
     t1 = msg->data;
 
-    if (t1 == -1)
-    {
-        kill_turtle(1);
-    }
+    std::cout << "I heard from t1Callback " << msg->data << std::endl;
+
 }
+
 
 void t2Callback(const std_msgs::Int32::ConstPtr &msg)
 {
     t2 = msg->data;
 
-    if (t2 == -1)
-    {
-        kill_turtle(2);
-    }
+    std::cout << "I heard from t2Callback " << msg->data << std::endl;
+
 }
 
 void turtle1Callback(const turtlesim::Pose::ConstPtr &msg)
@@ -120,7 +119,7 @@ int main(int argc, char *argv[])
     ros::init(argc, argv, "get_close");
 
     ros::NodeHandle n;
-    
+    p_node_handle = &n;
     ros::ServiceClient spawn_client = n.serviceClient<turtlesim::Spawn>("/spawn");
     turtlesim::Spawn spawn_message;
     spawn_message.request.name = "turtle2";
@@ -134,6 +133,9 @@ int main(int argc, char *argv[])
     ros::Subscriber pose1_subscriber = n.subscribe("/turtle1/pose", 100, &turtle1Callback);
     ros::Subscriber pose2_subscriber = n.subscribe("/turtle2/pose", 100, &turtle2Callback);
 
+    ros::Subscriber t1_subscriber = n.subscribe("t1", 1, &t1Callback);
+    ros::Subscriber t2_subscriber = n.subscribe("t2", 1, &t2Callback);
+
     ros::Rate loop_rate(10);
     while (ros::ok())
     {
@@ -141,11 +143,19 @@ int main(int argc, char *argv[])
         cmd_vel_pub2.publish(cmd_vel_message2);
         loop_rate.sleep();
 
+        if (t1 == 0)
+        {
+        kill_turtle("turtle1");
+        t1=1;
+        }
+        else if (t2 == 0)
+        {
+        kill_turtle("turtle2");
+        t2=1;
+        }
+
         ros::spinOnce();
     }
-
-    ros::Subscriber t1_subscriber = n.subscribe("t1", 1, t1Callback);
-    ros::Subscriber t2_subscriber = n.subscribe("t2", 1, t2Callback);
 
     return 0;
 }
