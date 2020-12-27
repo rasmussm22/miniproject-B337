@@ -8,6 +8,7 @@
 #include <std_msgs/Int32.h>
 #include <sstream>
 #include <string>
+#include <turtlesim/TeleportAbsolute.h>
 #include <turtlesim/SetPen.h>
 
 geometry_msgs::Twist cmd_vel_message1;
@@ -23,8 +24,6 @@ int t2 = 1;
 
 void kill_turtle(std::string n)
 {
-    //std::stringstream ss;
-    //ss << "turtle" << n;
     turtlesim::Kill kill_message;
     kill_message.request.name = n;
     ros::ServiceClient kill_client = p_node_handle->serviceClient<turtlesim::Kill>("/kill");
@@ -34,18 +33,11 @@ void kill_turtle(std::string n)
 void t1Callback(const std_msgs::Int32::ConstPtr &msg)
 {
     t1 = msg->data;
-
-    std::cout << "I heard from t1Callback " << msg->data << std::endl;
-
 }
-
 
 void t2Callback(const std_msgs::Int32::ConstPtr &msg)
 {
     t2 = msg->data;
-
-    std::cout << "I heard from t2Callback " << msg->data << std::endl;
-
 }
 
 void turtle1Callback(const turtlesim::Pose::ConstPtr &msg)
@@ -121,7 +113,7 @@ int main(int argc, char *argv[])
 
     ros::NodeHandle n;
     p_node_handle = &n;
-    
+
     srand(time(NULL));
 
     ros::ServiceClient spawn_client = n.serviceClient<turtlesim::Spawn>("/spawn");
@@ -133,15 +125,17 @@ int main(int argc, char *argv[])
 
     ros::ServiceClient pen_client = n.serviceClient<turtlesim::SetPen>("/turtle1/set_pen");
     ros::ServiceClient pen_client2 = n.serviceClient<turtlesim::SetPen>("/turtle2/set_pen");
-    
 
-     turtlesim::SetPen pen_srv;
-     pen_srv.request.off = true;
-     pen_client.call(pen_srv);
-     pen_client2.call(pen_srv);
+    turtlesim::SetPen pen_srv;
+    pen_srv.request.off = true;
+    pen_client.call(pen_srv);
+    pen_client2.call(pen_srv);
 
-
-    
+    ros::ServiceClient teleport_client = n.serviceClient<turtlesim::TeleportAbsolute>("/turtle1/teleport_absolute");
+    turtlesim::TeleportAbsolute srv;
+    srv.request.x = rand() % 11;
+    srv.request.y = rand() % 11;
+    teleport_client.call(srv);
     ros::Publisher cmd_vel_pub1 = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
     ros::Publisher cmd_vel_pub2 = n.advertise<geometry_msgs::Twist>("/turtle2/cmd_vel", 1);
 
@@ -160,13 +154,13 @@ int main(int argc, char *argv[])
 
         if (t1 == 0)
         {
-        kill_turtle("turtle1");
-        t1=1;
+            kill_turtle("turtle1");
+            t1 = 1;
         }
         else if (t2 == 0)
         {
-        kill_turtle("turtle2");
-        t2=1;
+            kill_turtle("turtle2");
+            t2 = 1;
         }
 
         ros::spinOnce();

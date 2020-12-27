@@ -2,27 +2,16 @@
 #include <ros/ros.h>
 #include <string>
 #include <stdlib.h>
-#include <stdio.h>  //random generator i think?//
-#include <time.h>   //For the random generator//
-#include <unistd.h> ///For the sleep//
+#include <stdio.h>  
+#include <time.h>   
+#include <unistd.h> 
 #include <std_msgs/Int32.h>
 #include <geometry_msgs/Twist.h>
 #include <turtlesim/Pose.h>
 #include <turtlesim/Spawn.h>
 #include <cstdlib>
 #include <turtlesim/Kill.h>
-/*
-void t1cb(const std_msgs::Int32::ConstPtr& msg)
-{
-std::cout << "Content: " << msg->data << std::endl;
-}
 
-void t2cb(const std_msgs::Int32::ConstPtr& msg)
-{
-std::cout << "Content: " << msg->data << std::endl;
-}
-*/
-//testing
 
 turtlesim::Pose turtle1_Pose;
 turtlesim::Pose turtle2_Pose;
@@ -60,8 +49,6 @@ int main(int argc, char **argv)
     ros::Publisher t1_pub = n.advertise<std_msgs::Int32>("t1", 1);
     ros::Publisher t2_pub = n.advertise<std_msgs::Int32>("t2", 1);
 
-    //ros::Subscriber t1_sub = n.subscribe("t1", 1, t1cb);
-    //ros::Subscriber t2_sub = n.subscribe("t2", 1, t2cb);  //testing
 
     double distance = 0;
     
@@ -76,14 +63,7 @@ int main(int argc, char **argv)
     double x_distance = turtle1_Pose.x - turtle2_Pose.x;
     double y_distance = turtle1_Pose.y - turtle2_Pose.y;
     distance = hypot(x_distance, y_distance);
-    /*
-    std::cout << distance << std::endl;
-    std::cout << turtle1_Pose.x << std::endl;
-    std::cout << turtle1_Pose.y << std::endl;
 
-    std::cout << turtle2_Pose.x << std::endl;
-    std::cout << turtle2_Pose.y << std::endl;
-    */
 
     } while (distance > 1);
     
