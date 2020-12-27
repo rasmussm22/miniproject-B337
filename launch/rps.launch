@@ -1,0 +1,12 @@
+<launch>
+
+<arg name="node_start_delay" default="2.0" />  
+<arg name="node_start_delay2" default="2.1" /> 
+
+<node pkg = "turtlesim" name = "turtlesimulator" type = "turtlesim_node"  />
+
+<node pkg = "rps" name = "package_move" type = "movement" output = "screen" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " /> 
+
+<node pkg = "rps" name = "rockhard" type = "rps" output = "screen" launch-prefix="bash -c 'sleep $(arg node_start_delay2); $0 $@' " />
+
+</launch>
