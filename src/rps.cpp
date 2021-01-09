@@ -1,16 +1,15 @@
 #include <iostream>
 #include <ros/ros.h>
-#include <string>
-#include <stdlib.h>
-#include <stdio.h>  
-#include <time.h>   
-#include <unistd.h> 
+//#include <string> // dont need string
+//#include <stdlib.h>
+//#include <stdio.h>  
+//#include <time.h>   
+#include <unistd.h> //only used for the sleep function, could be replaced
 #include <std_msgs/Int32.h>
-#include <geometry_msgs/Twist.h>
+//#include <geometry_msgs/Twist.h>
 #include <turtlesim/Pose.h>
-#include <turtlesim/Spawn.h>
-#include <cstdlib>
-#include <turtlesim/Kill.h>
+//#include <turtlesim/Spawn.h>
+//#include <turtlesim/Kill.h>
 
 
 turtlesim::Pose turtle1_Pose;
@@ -24,19 +23,20 @@ void turtle1Callback(const turtlesim::Pose::ConstPtr &msg)
 {
     turtle1_Pose = *msg;
 }
+//callback function for the pose of turtle1
 
 void turtle2Callback(const turtlesim::Pose::ConstPtr &msg)
 {
     turtle2_Pose = *msg;
 }
-
+//same as above
 
 int getTurtle_choice()
 {
     int turtle_choice = rand() % 3 + 1;
     return turtle_choice;
 }
-//making the turtles able to pick rock, paper or scissors randomly
+//making the turtles able to pick rock, paper or scissors randomly, +1 is because it is normally 0-2 not 1-3
 
 int main(int argc, char **argv)
 {
@@ -44,6 +44,7 @@ int main(int argc, char **argv)
     ros::NodeHandle n;
 
     ros::Rate delay(1);
+    //declaring a delay in hz 
 
     ros::Subscriber pose1_subscriber = n.subscribe("/turtle1/pose", 100, &turtle1Callback);
     ros::Subscriber pose2_subscriber = n.subscribe("/turtle2/pose", 100, &turtle2Callback);
@@ -55,6 +56,7 @@ int main(int argc, char **argv)
     //subscribing to the lifes of the turtles
 
     double distance = 0;
+    //initilasing a variable for distance
     
     delay.sleep();
     //delaying the game so that when the game dosent start when turtle1 teleports in the beginning
@@ -65,6 +67,7 @@ int main(int argc, char **argv)
 
 
     ros::spinOnce();
+    //check if subscribers are working
 
     double x_distance = turtle1_Pose.x - turtle2_Pose.x;
     double y_distance = turtle1_Pose.y - turtle2_Pose.y;
@@ -77,7 +80,7 @@ int main(int argc, char **argv)
 
     std::srand(time(NULL));
     //a statement that makes it so that every choice that the turtle makes is "random"
-
+    //might not need std???
     int Turtle1_NumberOfWins = 0;
     int Turtle2_NumberOfWins = 0;
     int turtle1_choice;
@@ -90,6 +93,7 @@ int main(int argc, char **argv)
 
         turtle1_choice = getTurtle_choice();
         turtle2_choice = getTurtle_choice();
+        //Assiging the choices of the turtles to the random choice variable that was made before
 
         ///////Outputting outcome of battle, and counting score///////////
 
@@ -138,7 +142,8 @@ int main(int argc, char **argv)
         std::cout << "Score: Turtle1 = " << Turtle1_NumberOfWins << ", Turtle2 = " << Turtle2_NumberOfWins << std::endl;
 
         sleep(2.5);
-        //the time between rounds (secs)
+        //the delay between rounds (secs)
+        //could be a ROS::Sleep function instead
     }
 
     if (Turtle1_NumberOfWins == 3)
@@ -156,9 +161,11 @@ int main(int argc, char **argv)
 
     std_msgs::Int32 msg1;
     std_msgs::Int32 msg2;
+    //declaring the message variables of type Int32
 
     msg1.data = t1;
     msg2.data = t2;
+    //assigning the resaults to the messages data so they can be published to the other node.
 
     t1_pub.publish(msg1);
     t2_pub.publish(msg2);
